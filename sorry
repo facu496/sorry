@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Carta bajo la lluvia</title>
+  <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@500;700&display=swap" rel="stylesheet">
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      height: 100vh;
+      overflow: hidden;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-family: 'Georgia', serif;
+      background: #000; /* fallback */
+    }
+    video.background {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      object-fit: cover;
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    .envelope {
+      position: relative;
+      width: 320px;
+      height: 200px;
+      background: #b02e2e;
+      border-radius: 8px;
+      box-shadow: 0 0 15px rgba(0,0,0,0.5);
+      transform-style: preserve-3d;
+      transform: perspective(1000px);
+      cursor: pointer;
+      z-index: 1;
+      transition: transform 1s;
+    }
+
+    .flap {
+      position: absolute;
+      top: 0;
+      width: 100%;
+      height: 100px;
+      background: #8b1a1a;
+      clip-path: polygon(0 0, 50% 100%, 100% 0);
+      transform-origin: top;
+      transition: transform 1s ease;
+      z-index: 2;
+    }
+    .letter {
+      position: absolute;
+      width: 400px;
+      height: 280px;
+      top: -30px;
+      left: -40px;
+      background: #f9f1e7;
+      padding: 30px;
+      box-sizing: border-box;
+      border-radius: 10px;
+      border: 2px solid #ccc;
+      box-shadow:  0 8px 30px rgba(0,0,0,0.3);
+      opacity: 0;
+      transform: scale(0.8) translateY(20px);
+      transition: all 0.8s ease;
+      overflow-y: auto;
+      font-size: 22px;
+      line-height: 1.8;
+      color: #3e3e3e;
+      font-family: 'Dancing Script', cursive;
+      background-image: radial-gradient(circle at top left, #fdfaf7, #f3e6d8);
+      z-index: 3;
+    }
+
+    .envelope.opened {
+  transform: rotateX(20deg) scale(1.1);
+}
+    .envelope.opened .flap {
+      transform: rotateX(-180deg);
+    }
+
+    .envelope.opened .letter {
+      opacity: 1;
+      transform: scale(1) translateY(0);
+    }
+
+    .letter p {
+      margin: 0;
+      white-space: pre-wrap;
+    }
+
+    .letter p span {
+      display: block;
+      margin-bottom: 15px;
+      font-weight: bold;
+      font-size: 26px;
+      color: #5c4742;
+    }
+
+    #musicBtn {
+      position: absolute;
+      bottom: 20px;
+      right: 20px;
+      background: rgba(255,255,255,0.1);
+      border: 1px solid #ccc;
+      padding: 10px 15px;
+      color: #fff;
+      font-size: 14px;
+      border-radius: 5px;
+      cursor: pointer;
+      z-index: 2;
+      backdrop-filter: blur(3px);
+      transition: background 0.3s;
+    }
+
+    #musicBtn:hover {
+      background: rgba(255,255,255,0.2);
+    }
+.blur-bg{
+
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.3);
+  backdrop-filter: blur(2px);
+  z-index: 0;
+}
+
+</style>
+</head>
+<body>
+  <!-- VIDEO DE LLUVIA COMO FONDO -->
+  <video class="background" autoplay loop muted>
+    <source src="lluvia.mp4" type="video/mp4">
+  </video>
+<div class="blur-bg"></div>
+  <!-- SOBRE -->
+  <div class="envelope" onclick="this.classList.toggle('opened')">
+    <div class="flap"></div>
+    <div class="letter">
+      <p>
+        <span>Lo siento...</span>
+        Sé que mi estupidez te lastimó.
+        
+        Lo siento por no saber cómo sacarte de mi cabeza.
+        Y por no saberte soltar.
+      </p>
+    </div>
+  </div>
+
+  <!-- MÚSICA -->
+  <audio id="bgm" loop>
+    <source src="musica.mp3" type="audio/mpeg">
+    Tu navegador no soporta audio.
+  </audio>
+
+  <button id="musicBtn" onclick="toggleMusic()">🎵 Música</button>
+
+  <script>
+    const music = document.getElementById('bgm');
+    let playing = false;
+
+    function toggleMusic() {
+      if (!playing) {
+        music.play();
+        playing = true;
+        document.getElementById('musicBtn').textContent = '⏸️ Pausar';
+      } else {
+        music.pause();
+        playing = false;
+        document.getElementById('musicBtn').textContent = '🎵 Música';
+      }
+    }
+</script>
+</body>
+</html>
